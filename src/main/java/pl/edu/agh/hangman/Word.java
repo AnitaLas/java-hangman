@@ -1,5 +1,6 @@
 package pl.edu.agh.hangman;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Word {
@@ -7,14 +8,17 @@ public class Word {
     private String word;
     private String staticSymbol = "_";
     private String[] symbolsToCheck;
-    private ArrayList<String>  wordToCheck;
+    private char[] wordToCheck;
 
 
-    Word(ArrayList<String> wordToCheck) {
-        this.word = word;
-        this.symbolsToCheck = new String[word.length()];
+    Word() throws IOException {
+        FindWord findWord = new FindWord();
 
-        for(int i = 0; i < symbolsToCheck.length; i++) {
+        //this.symbolsToCheck = new String[findWord.takeRandomWord("slowa.txt").length()];
+        this.wordToCheck = findWord.takeRandomWord("slowa.txt").toCharArray();
+        this.symbolsToCheck = new String[this.wordToCheck.length];
+
+        for(int i = 0; i < this.wordToCheck.length; i++) {
             this.symbolsToCheck[i] = staticSymbol;
         }
     }
@@ -23,22 +27,25 @@ public class Word {
     public void printWord(){
         for(String symbol : this.symbolsToCheck) {
             System.out.print(symbol);
-            //System.out.println();
         }
         System.out.println();
     }
 
     public boolean isSymbolExist(String newSymbol){
 
-        for(int i = 0; i < symbolsToCheck.length; i++) {
+        for(int i = 0; i < this.wordToCheck.length; i++) {
 
-            if(this.wordToCheck.get(i).equals(newSymbol)) {
-                System.out.println ("1 " +symbolsToCheck[i]);
+            String c1 = Character.toString(this.wordToCheck[i]);
+            System.out.print(c1);
+
+            if(newSymbol.equals(c1)) {
+
+                System.out.print(c1);
                 this.symbolsToCheck[i] = newSymbol;
                 return true;
             }
             else {
-                System.out.println ("2 " +symbolsToCheck[i]);
+
                 return false;
             }
         }
