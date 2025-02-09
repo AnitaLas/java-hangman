@@ -24,8 +24,13 @@ public class FindWord {
     public String takeRandomWord(String fileName) throws IOException {
         ArrayList<String> word;
         word = getWordsList(fileName);
-        int x = ThreadLocalRandom.current().nextInt(0, word.size());
-        String wordToPlay = word.get(x);
+        int x;
+        String wordToPlay;
+
+        x = ThreadLocalRandom.current().nextInt(0, word.size());
+        wordToPlay = word.get(x);
+
+
         System.out.println(wordToPlay);
 
         return wordToPlay;
