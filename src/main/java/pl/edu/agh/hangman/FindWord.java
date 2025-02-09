@@ -8,8 +8,9 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class FindWord {
 
-    private ArrayList<String> getWordsList() throws IOException {
-        InputStream wordsFile = getClass().getClassLoader().getResourceAsStream("slowa.txt");
+
+    private ArrayList<String> getWordsList(String fileName) throws IOException {
+        InputStream wordsFile = getClass().getClassLoader().getResourceAsStream(fileName);
         InputStreamReader streamReader = new InputStreamReader(wordsFile, StandardCharsets.UTF_8);
         BufferedReader reader = new BufferedReader(streamReader);
         ArrayList<String> wordsList = new ArrayList();
@@ -20,13 +21,14 @@ public class FindWord {
         return wordsList;
     }
 
-    public ArrayList<String> takeRandomWord() throws IOException {
-        ArrayList<String> wordsList;
-        wordsList = getWordsList();
+    public String takeRandomWord(String fileName) throws IOException {
+        ArrayList<String> word;
+        word = getWordsList(fileName);
+        int x = ThreadLocalRandom.current().nextInt(0, word.size());
+        String wordToPlay = word.get(x);
+        System.out.println(wordToPlay);
 
-        int x = ThreadLocalRandom.current().nextInt(0, wordsList.size());
-        System.out.println(wordsList.get(x));
-        return wordsList;
+        return wordToPlay;
     }
 
 }
