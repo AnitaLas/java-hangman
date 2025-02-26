@@ -2,60 +2,63 @@ package pl.edu.agh.hangman;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
-public class Word {
+public class WordChecker {
 
-    private String word;
     private String staticSymbol = "_";
-    private String[] symbolsToCheck;
-    private char[] wordToCheck;
+    private List<String> hiddenSymbols = new ArrayList<>();
+    private List<String> discoverSymbols = new ArrayList<>();
+    private FindWord findWord;
+    private int maxCountedShots = 0;
 
+    WordChecker(FindWord findWord) throws IOException {
+        this.findWord = findWord;
+        setDataSymbolsToDiscover();
+    }
 
-    Word() throws IOException {
-        FindWord findWord = new FindWord();
+    private void setDataSymbolsToDiscover() {
 
-        //this.symbolsToCheck = new String[findWord.takeRandomWord("slowa.txt").length()];
-        this.wordToCheck = findWord.takeRandomWord("slowa.txt").toCharArray();
-        this.symbolsToCheck = new String[this.wordToCheck.length];
+        for (char c : this.findWord.getWord().toCharArray()) {
+            if (Character.isLetter(c)) {
+                this.hiddenSymbols.add(this.staticSymbol);
 
-        for(int i = 0; i < this.wordToCheck.length; i++) {
-            this.symbolsToCheck[i] = staticSymbol;
+                if (!this.discoverSymbols.contains(String.valueOf(c))) {
+                    this.maxCountedShots++;
+                }
+                this.discoverSymbols.add(String.valueOf(c));
+            } else {
+                this.hiddenSymbols.add(String.valueOf(c));
+                this.discoverSymbols.add(String.valueOf(c));
+            }
         }
     }
 
+    protected int getMaxCountedShot() {
+        return this.maxCountedShots;
+    }
 
-    public void printWord(){
-        for(String symbol : this.symbolsToCheck) {
+    protected void printCurrentGuessedSymbolsOfPassword() {
+        for (String symbol : this.hiddenSymbols) {
             System.out.print(symbol);
         }
         System.out.println();
     }
 
-    public boolean isSymbolExist(String newSymbol){
+    protected boolean isSymbolExist(String symbolToCheck) {
+        String currentSymbol = symbolToCheck.toUpperCase();
 
-        for(int i = 0; i < this.wordToCheck.length; i++) {
+        if (this.findWord.getWord().contains(currentSymbol)) {
 
-            String c1 = Character.toString(this.wordToCheck[i]);
-            System.out.print(c1);
-
-            if(newSymbol.equals(c1)) {
-
-                System.out.print(c1);
-                this.symbolsToCheck[i] = newSymbol;
-                return true;
+            for (int i = 0; i < this.discoverSymbols.size(); i++) {
+                if (currentSymbol.equals(discoverSymbols.get(i))) {
+                    this.hiddenSymbols.set(i, currentSymbol);
+                }
             }
-            else {
-
-                return false;
-            }
+            return true;
+        } else {
+            return false;
         }
-
-        return false;
-
     }
-
-
-
-
 
 }

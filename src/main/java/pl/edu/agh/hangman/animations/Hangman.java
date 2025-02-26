@@ -1,4 +1,4 @@
-package pl.edu.agh.hangman;
+package pl.edu.agh.hangman.animations;
 
 public class Hangman {
 

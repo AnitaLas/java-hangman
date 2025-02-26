@@ -1,14 +1,19 @@
 package pl.edu.agh.hangman;
 
+import pl.edu.agh.hangman.animations.Hangman;
+import pl.edu.agh.hangman.animations.Snowman;
+
 import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-//        PlayerBoard playerBoard = new PlayerBoard();
-//        playerBoard.giveMeLetter();
-        FindWord findWord = new FindWord();
-        findWord.takeRandomWord("slowa.txt");
-        Word word = new Word();
-        word.setEmptyWord();
+
+        Animation animation = new Animation();
+        animation.setAnimation(Hangman.HANGMANPICS);
+
+        PlayGame playGame = new PlayGame();
+        //playGame.setAnimation(animation);
+        playGame.playGameManyTimes();
+
     }
 }
