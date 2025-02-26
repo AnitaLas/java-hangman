@@ -1,4 +1,4 @@
 package pl.edu.agh.hangman;
 
-public class PlayGame {
+public class MessagePrinter {
 }
